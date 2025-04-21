@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dda-fons <dda-fons@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/15 17:06:34 by dda-fons          #+#    #+#             */
-/*   Updated: 2025/04/15 17:06:48 by dda-fons         ###   ########.fr       */
+/*   Created: 2025/04/21 10:18:16 by dda-fons          #+#    #+#             */
+/*   Updated: 2025/04/21 10:19:17 by dda-fons         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 int	ft_strlen(char *str)
 {
@@ -65,31 +65,4 @@ char	*ft_strjoin(char *s1, char *s2)
 		ret[i++] = *s2++;
 	ret[i] = '\0';
 	return (ret);
-}
-
-void	*ft_calloc(size_t nmemb, size_t size)
-{
-	void	*ret;
-	size_t	m;
-
-	m = size * nmemb;
-	ret = malloc(m);
-	if (!ret)
-		return (NULL);
-	ft_bzero(ret, m);
-	return (ret);
-}
-
-void	ft_bzero(void *s, size_t n)
-{
-	size_t	i;
-	char	*c;
-
-	c = (char *)s;
-	i = 0;
-	while (i < n)
-	{
-		c[i] = '\0';
-		i++;
-	}
 }
