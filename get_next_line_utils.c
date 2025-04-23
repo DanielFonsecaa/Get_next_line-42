@@ -1,95 +1,123 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dda-fons <dda-fons@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 17:06:34 by dda-fons          #+#    #+#             */
-/*   Updated: 2025/04/15 17:06:48 by dda-fons         ###   ########.fr       */
+/*   Updated: 2025/04/23 16:09:17 by dda-fons         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	ft_strlen(char *str)
+size_t	ft_strlcat(char *dst, char *src, size_t size)
 {
-	int	i;
+	size_t	i;
+	size_t	len_dst;
+	size_t	len_src;
 
+	len_dst = 0;
+	len_src = 0;
+	while (dst[len_dst])
+		len_dst++;
+	while (src[len_src])
+		len_src++;
+	if (size == 0)
+		return (len_src);
+	if (len_dst >= size)
+		return (len_src + size);
 	i = 0;
-	while (str[i])
+	while (i < (size - 1 - len_dst) && src[i])
+	{
+		dst[len_dst + i] = src[i];
 		i++;
-	return (i);
+	}
+	dst[len_dst + i] = '\0';
+	return (len_dst + len_src);
 }
 
-char	*ft_strchr(char *s, int c)
+char	*ft_append(char *old, char *buffer)
 {
-	char	*ret;
-
-	while (*s)
-	{
-		if (*s == (char)c)
-		{
-			ret = (char *)s;
-			return (ret);
-		}
-		s++;
-	}
-	if (!(char)c)
-	{
-		ret = (char *)&s[ft_strlen(s)];
-		return (ret);
-	}
-	return (NULL);
-}
-
-char	*ft_strjoin(char *s1, char *s2)
-{
-	char	*ret;
+	char	*new;
+	size_t	len_old;
 	size_t	i;
-	size_t	size;
+	size_t	len_nl;
 
-	if (!s1 || !s2)
-		return (NULL);
 	i = 0;
-	size = ft_strlen(s1) + ft_strlen(s2) + 1;
-	ret = malloc(size);
-	if (!ret)
-		return (NULL);
-	if (s1)
+	len_old = 0;
+	len_nl = 0;
+	while (old && old[len_old])
+		len_old++;
+	while (buffer[len_nl] && buffer[len_nl] != '\n')
+		len_nl++;
+	len_nl += (buffer[len_nl] == '\n');
+	new = malloc(sizeof(char) * (len_old + len_nl + 1));
+	if (!new)
+		return (free(old), NULL);
+	while (i < len_nl)
+		new[i++] = '\0';
+	if (old)
 	{
-		while (*s1)
-			ret[i++] = *s1++;
+		ft_strlcat(new, old, len_old + 1);
+		free(old);
 	}
-	while (*s2)
-		ret[i++] = *s2++;
-	ret[i] = '\0';
-	return (ret);
+	ft_strlcat(new, buffer, len_old + len_nl + 1);
+	return (new);
 }
 
-void	*ft_calloc(size_t nmemb, size_t size)
+void	*ft_memchr(void *s, int c, size_t n)
 {
-	void	*ret;
-	size_t	m;
+	size_t			i;
+	unsigned char	*c1;
+	unsigned char	*temp;
 
-	m = size * nmemb;
-	ret = malloc(m);
-	if (!ret)
-		return (NULL);
-	ft_bzero(ret, m);
-	return (ret);
-}
-
-void	ft_bzero(void *s, size_t n)
-{
-	size_t	i;
-	char	*c;
-
-	c = (char *)s;
 	i = 0;
+	c1 = (unsigned char *)s;
 	while (i < n)
 	{
-		c[i] = '\0';
+		if (c1[i] == (unsigned char)c)
+		{
+			temp = (unsigned char *)&c1[i];
+			return (temp);
+		}
 		i++;
 	}
+	return (0);
+}
+
+int	ft_update_buffer(char *buffer, int fd)
+{
+	ssize_t	bytes_read;
+	size_t	i;
+
+	bytes_read = read(fd, buffer, BUFFER_SIZE);
+	i = bytes_read;
+	if (bytes_read <= 0)
+		return (bytes_read);
+	while (i < BUFFER_SIZE)
+	{
+		buffer[i] = '\0';
+		i++;
+	}
+	return (bytes_read);
+}
+
+char	*ft_move_buffer(char *buffer, char *line)
+{
+	size_t	j;
+	size_t	len_nl;
+
+	len_nl = 0;
+	j = 0;
+	while (buffer[len_nl] && buffer[len_nl] != '\n')
+		len_nl++;
+	if (buffer[len_nl] == '\n')
+		len_nl++;
+	while (buffer[len_nl])
+		buffer[j++] = buffer[len_nl++];
+	while (j < BUFFER_SIZE)
+		buffer[j++] = '\0';
+	return (line);
 }
