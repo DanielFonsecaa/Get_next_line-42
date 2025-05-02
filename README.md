@@ -11,6 +11,14 @@
 
 This project focuses on writing a function `get_next_line` that reads one line at a time from a file descriptor. The function should return a string (a line) when it’s called repeatedly. The function is useful for reading lines from a file or input stream one by one, instead of reading the entire file at once.
 
+<div align="center">
+  
+| Grade                                                             | Evaluation Information           |
+| :---------------------------------------------------------------- | :------------------------------- |
+| <img src="https://img.shields.io/badge/112%20%2F%20125%20%E2%98%85-sucess"/>  | `3 peers` `30 mins` `moulinette` |
+</div>
+
+
 ## ✨ Features
 
 - Reads one line at a time from a file descriptor.
