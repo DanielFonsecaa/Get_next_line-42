@@ -15,7 +15,7 @@ This project focuses on writing a function `get_next_line` that reads one line a
   
 | Grade                                                             | Evaluation Information           |
 | :---------------------------------------------------------------- | :------------------------------- |
-| <img src="https://img.shields.io/badge/112%20%2F%20125%20%E2%98%85-sucess"/>  | `3 peers` `30 mins` `moulinette` |
+| <img src="https://img.shields.io/badge/112%20%2F%20100%20%E2%98%85-sucess"/>  | `3 peers` `30 mins` `moulinette` |
 </div>
 
 
